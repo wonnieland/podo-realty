@@ -1966,7 +1966,6 @@ export default function App(){
   const [screen,setScreen]=useState("home");
   const [listings,setListings]=useState(INIT);
   const [visible,setVisible]=useState(true);
-  const [nextScreen,setNextScreen]=useState(null);
 
   const go=s=>{
     setVisible(false);
@@ -1986,14 +1985,37 @@ export default function App(){
 
   const wrap=(children)=><div style={style}>{children}</div>;
 
-  if(screen==="home") return wrap(<Home listings={listings} onNav={go}/>);
-  if(screen==="매물"||screen==="등록") return wrap(<ListingsScreen listings={listings} setListings={setListings} onHome={home}/>);
-  if(screen==="시세") return wrap(<SiseScreen onHome={home} onNav={go}/>);
-  if(screen==="계산기") return wrap(<CalcScreen onHome={home}/>);
-  if(screen==="평면도") return wrap(<PlanScreen onHome={home}/>);
-  if(screen==="의뢰") return wrap(<InquiryScreen onHome={home}/>);
-  if(screen==="가이드") return wrap(<GuideScreen onHome={home}/>);
-  if(screen==="지도") return wrap(<MapScreen onHome={home}/>);
-  if(screen==="네이버") return wrap(<NaverScreen onHome={home}/>);
-  return null;
+  const content=
+    screen==="home"?wrap(<Home listings={listings} onNav={go}/>):
+    screen==="매물"||screen==="등록"?wrap(<ListingsScreen listings={listings} setListings={setListings} onHome={home}/>):
+    screen==="시세"?wrap(<SiseScreen onHome={home} onNav={go}/>):
+    screen==="계산기"?wrap(<CalcScreen onHome={home}/>):
+    screen==="평면도"?wrap(<PlanScreen onHome={home}/>):
+    screen==="의뢰"?wrap(<InquiryScreen onHome={home}/>):
+    screen==="가이드"?wrap(<GuideScreen onHome={home}/>):
+    screen==="지도"?wrap(<MapScreen onHome={home}/>):
+    screen==="네이버"?wrap(<NaverScreen onHome={home}/>):null;
+
+  return(
+    <div style={{
+      minHeight:"100vh",
+      background:"#1a1a2e",
+      display:"flex",
+      justifyContent:"center",
+      alignItems:"flex-start",
+    }}>
+      {/* 모바일 프레임 */}
+      <div style={{
+        width:"100%",
+        maxWidth:480,
+        minHeight:"100vh",
+        background:"#F0EDE8",
+        position:"relative",
+        boxShadow:"0 0 60px rgba(0,0,0,0.5)",
+        overflow:"hidden",
+      }}>
+        {content}
+      </div>
+    </div>
+  );
 }
